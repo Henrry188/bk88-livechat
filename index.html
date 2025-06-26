@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BK88 实时客服</title>
+  <style>
+    body {
+      background-color: #111;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #1c1c1c;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px gold;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+    .logo {
+      font-size: 32px;
+      font-weight: bold;
+      color: gold;
+      margin-bottom: 10px;
+    }
+    h2 {
+      color: gold;
+      margin-bottom: 20px;
+    }
+    input[type="text"], input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      background-color: gold;
+      border: none;
+      color: #111;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .status {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">BK88</div>
+    <h2>💬 输入消息发送到 Telegram</h2>
+    <input type="text" id="message" placeholder="请输入消息"/>
+    <input type="file" id="image" accept="image/*" />
+    <button onclick="sendMessage()">发送</button>
+    <div class="status" id="status"></div>
+  </div>
+
+  <script>
+    const WORKER_URL = "https://royal-mouse-b826.henry188.workers.dev/";
+
+    async function sendMessage() {
+      const message = document.getElementById("message").value;
+      const imageInput = document.getElementById("image");
+      const statusDiv = document.getElementById("status");
+
+      const formData = new FormData();
+      formData.append("message", message);
+      if (imageInput.files.length > 0) {
+        formData.append("image", imageInput.files[0]);
+      }
+
+      statusDiv.innerText = "⏳ 发送中...";
+
+      try {
+        const response = await fetch(WORKER_URL, {
+          method: "POST",
+          body: formData
+        });
+
+        const result = await response.text();
+        if (response.ok) {
+          statusDiv.innerText = "✅ 已发送成功";
+        } else {
+          statusDiv.innerText = "❌ 错误: " + result;
+        }
+      } catch (error) {
+        statusDiv.innerText = "⚠️ 网络错误: " + error.message;
+      }
+    }
+  </script>
+</body>
+</html>
