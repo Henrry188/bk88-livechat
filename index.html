@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>BK88 客服聊天室</title>
+</head>
+<body>
+  <h2>💬 输入消息发送给 Telegram</h2>
+  <input id="msg" placeholder="请输入..." style="width:300px;" />
+  <button onclick="send()">发送</button>
+
+  <script>
+    function send() {
+      const msg = document.getElementById("msg").value;
+      fetch("https://royal-mouse-b826.henrry188.workers.dev", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg })
+      })
+      .then(res => res.text())
+      .then(alert);
+    }
+  </script>
+</body>
+</html>
