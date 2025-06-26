@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BK88 Live Chat</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      color: white;
+    }
+    .logo {
+      padding: 20px;
+      text-align: center;
+      background: #000;
+    }
+    .logo img {
+      height: 60px;
+    }
+    .chat-box {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      overflow-y: auto;
+      background: #111;
+    }
+    .message {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    .input-area {
+      display: flex;
+      padding: 10px;
+      background: #000;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      margin-left: 10px;
+      padding: 10px 15px;
+      background: gold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    input[type="file"] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <img src="assets/logo.jpg" alt="BK88 Logo" />
+  </div>
+  <div class="chat-box" id="chatBox"></div>
+  <div class="input-area">
+    <input type="text" id="chatInput" placeholder="Type your message..." />
+    <button onclick="sendMessage()">Send</button>
+    <label for="imageUpload" style="cursor:pointer;"><button>📷</button></label>
+    <input type="file" id="imageUpload" accept="image/*" onchange="sendImage()" />
+  </div>
+
+  <script>
+    const chatBox = document.getElementById('chatBox');
+    const chatInput = document.getElementById('chatInput');
+
+    function appendMessage(content, sender = 'visitor') {
+      const div = document.createElement('div');
+      div.classList.add('message');
+      div.innerHTML = `<strong>${sender}:</strong> ${content}`;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function sendMessage() {
+      const text = chatInput.value.trim();
+      if (text) {
+        appendMessage(text, 'You');
+        chatInput.value = '';
+      }
+    }
+
+    function sendImage() {
+      const fileInput = document.getElementById('imageUpload');
+      const file = fileInput.files[0];
+      if (file) {
+        appendMessage(`<em>📷 Sent an image: ${file.name}</em>`);
+      }
+    }
+  </script>
+</body>
+</html>
