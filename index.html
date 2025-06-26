@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BK88 在线聊天</title>
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      background-color: #111;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+    .chat-container {
+      background: #1e1e1e;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      width: 100%;
+      max-width: 400px;
+    }
+    h1 {
+      text-align: center;
+      color: gold;
+    }
+    img.logo {
+      display: block;
+      margin: 0 auto 1rem auto;
+      max-width: 150px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    button {
+      background-color: gold;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .status {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <img src="bk88_logo.jpg" alt="BK88 Logo" class="logo" />
+  <div class="chat-container">
+    <h1>💬 输入消息发送到 Telegram</h1>
+    <input type="text" id="messageInput" placeholder="输入内容..."/>
+    <button onclick="sendMessage()">发送</button>
+    <div class="status" id="status"></div>
+  </div>
+  <script>
+    async function sendMessage() {
+      const message = document.getElementById("messageInput").value;
+      const status = document.getElementById("status");
+      if (!message) {
+        status.textContent = "❌ 请输入内容";
+        return;
+      }
+      try {
+        const res = await fetch("https://royal-mouse-b826.henrry188.workers.dev/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+        const text = await res.text();
+        status.textContent = res.ok ? "✅ 已发送成功" : "❌ 发送失败：" + text;
+      } catch (err) {
+        status.textContent = "⚠️ 网络错误：" + err;
+      }
+    }
+  </script>
+</body>
+</html>
